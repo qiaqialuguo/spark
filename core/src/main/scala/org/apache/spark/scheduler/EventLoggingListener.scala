@@ -44,6 +44,15 @@ import org.apache.spark.util.{JsonProtocol, Utils}
  *
  * Event log file writer maintains its own parameters: refer the doc of [[EventLogFileWriter]]
  * and its descendant for more details.
+ * 一个将事件记录到持久存储的 SparkListener。
+ *
+ * 事件记录由以下可配置参数指定：
+ *
+ * spark.eventLog.enabled - 是否启用事件记录。
+ * spark.eventLog.dir - 事件记录的目录路径。
+ * spark.eventLog.logBlockUpdates.enabled - 是否记录块更新。
+ * spark.eventLog.logStageExecutorMetrics - 是否记录阶段执行器指标。
+ * 事件日志文件编写器维护其自己的参数：参考[[EventLogFileWriter]]文档及其子类获取更多详细信息。
  */
 private[spark] class EventLoggingListener(
     appId: String,
