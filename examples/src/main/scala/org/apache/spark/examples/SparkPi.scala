@@ -18,16 +18,21 @@
 // scalastyle:off println
 package org.apache.spark.examples
 
-import scala.math.random
+import org.apache.spark.SparkConf
 
+import scala.math.random
 import org.apache.spark.sql.SparkSession
+
 
 /** Computes an approximation to pi */
 object SparkPi {
   def main(args: Array[String]): Unit = {
+    val config = new SparkConf()
+    config.set("spark.eventLog.enabled", "true")
+    config.set("spark.eventLog.dir", "file:///D:/code/spark_demo_scala/src/main/resources")
     val spark = SparkSession
       .builder()
-      .appName("Spark Pi")
+      .appName("Spark Pi").master("local").config(config)
       .getOrCreate()
     val slices = if (args.length > 0) args(0).toInt else 2
     val n = math.min(100000L * slices, Int.MaxValue).toInt // avoid overflow
