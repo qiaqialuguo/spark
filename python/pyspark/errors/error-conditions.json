@@ -149,6 +149,16 @@
       "Cannot <condition1> without <condition2>."
     ]
   },
+  "CLASSIC_OPERATION_NOT_SUPPORTED_ON_DF": {
+    "message": [
+      "Calling property or member '<member>' is not supported in PySpark Classic, please use Spark Connect instead."
+    ]
+  },
+  "COLLATION_INVALID_PROVIDER" : {
+    "message" : [
+      "The value <provider> does not represent a correct collation provider. Supported providers are: [<supportedProviders>]."
+    ]
+  },
   "COLUMN_IN_LIST": {
     "message": [
       "`<func_name>` does not allow a Column in a list."
@@ -357,6 +367,11 @@
       "All items in `<arg_name>` should be in <allowed_types>, got <item_type>."
     ]
   },
+  "INVALID_JSON_DATA_TYPE_FOR_COLLATIONS" : {
+    "message" : [
+      "Collations can only be applied to string types, but the JSON data type is <jsonType>."
+    ]
+  },
   "INVALID_MULTIPLE_ARGUMENT_CONDITIONS": {
     "message": [
       "[{arg_names}] cannot be <condition>."
@@ -480,6 +495,11 @@
   "LENGTH_SHOULD_BE_THE_SAME": {
     "message": [
       "<arg1> and <arg2> should be of the same length, got <arg1_length> and <arg2_length>."
+    ]
+  },
+  "MALFORMED_VARIANT" : {
+    "message" : [
+      "Variant binary is malformed. Please check the data source is valid."
     ]
   },
   "MASTER_URL_NOT_SET": {

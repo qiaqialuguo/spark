@@ -22,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import scala.jdk.CollectionConverters._
 
 import org.apache.spark.connect.proto.{Command, ExecutePlanResponse, Plan, StreamingQueryEventType}
-import org.apache.spark.internal.Logging
+import org.apache.spark.internal.{Logging, LogKeys, MDC}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.connect.client.CloseableIterator
 import org.apache.spark.sql.streaming.StreamingQueryListener.{Event, QueryIdleEvent, QueryProgressEvent, QueryStartedEvent, QueryTerminatedEvent}
@@ -115,14 +115,16 @@ class StreamingQueryListenerBus(sparkSession: SparkSession) extends Logging {
             case StreamingQueryEventType.QUERY_TERMINATED_EVENT =>
               postToAll(QueryTerminatedEvent.fromJson(event.getEventJson))
             case _ =>
-              logWarning(s"Unknown StreamingQueryListener event: $event")
+              logWarning(log"Unknown StreamingQueryListener event: ${MDC(LogKeys.EVENT, event)}")
           }
         })
       }
     } catch {
       case e: Exception =>
-        logWarning("StreamingQueryListenerBus Handler thread received exception, all client" +
-          " side listeners are removed and handler thread is terminated.", e)
+        logWarning(
+          "StreamingQueryListenerBus Handler thread received exception, all client" +
+            " side listeners are removed and handler thread is terminated.",
+          e)
         lock.synchronized {
           executionThread = Option.empty
           listeners.forEach(remove(_))
@@ -142,11 +144,12 @@ class StreamingQueryListenerBus(sparkSession: SparkSession) extends Logging {
             listener.onQueryIdle(t)
           case t: QueryTerminatedEvent =>
             listener.onQueryTerminated(t)
-          case _ => logWarning(s"Unknown StreamingQueryListener event: $event")
+          case _ =>
+            logWarning(log"Unknown StreamingQueryListener event: ${MDC(LogKeys.EVENT, event)}")
         }
       } catch {
         case e: Exception =>
-          logWarning(s"Listener $listener threw an exception", e)
+          logWarning(log"Listener ${MDC(LogKeys.LISTENER, listener)} threw an exception", e)
       })
   }
 }

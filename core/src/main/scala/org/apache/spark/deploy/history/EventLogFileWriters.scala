@@ -21,7 +21,7 @@ import java.io._
 import java.net.URI
 import java.nio.charset.StandardCharsets
 
-import org.apache.commons.compress.utils.CountingOutputStream
+import org.apache.commons.io.output.CountingOutputStream
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileStatus, FileSystem, FSDataOutputStream, Path}
 import org.apache.hadoop.fs.permission.FsPermission
@@ -107,7 +107,7 @@ abstract class EventLogFileWriter(
         .getOrElse(dstream)
       val bstream = new BufferedOutputStream(cstream, outputBufferSize)
       fileSystem.setPermission(path, EventLogFileWriter.LOG_FILE_PERMISSIONS)
-      logInfo(s"Logging events to $path")
+      logInfo(log"Logging events to ${MDC(PATH, path)}")
       writer = Some(fnSetupWriter(bstream))
     } catch {
       case e: Exception =>
@@ -330,7 +330,7 @@ class RollingEventLogFilesWriter(
 
   override def writeEvent(eventJson: String, flushLogger: Boolean = false): Unit = {
     writer.foreach { w =>
-      val currentLen = countingOutputStream.get.getBytesWritten
+      val currentLen = countingOutputStream.get.getByteCount
       if (currentLen + eventJson.length > eventFileMaxLength) {
         rollEventLogFile()
       }
