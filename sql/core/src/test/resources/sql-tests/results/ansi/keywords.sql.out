@@ -98,6 +98,7 @@ DIRECTORY	false
 DISTINCT	true
 DISTRIBUTE	false
 DIV	false
+DO	false
 DOUBLE	false
 DROP	false
 ELSE	true
@@ -203,6 +204,7 @@ NANOSECOND	false
 NANOSECONDS	false
 NATURAL	true
 NO	false
+NONE	false
 NOT	true
 NULL	true
 NULLS	false
@@ -349,6 +351,7 @@ WEEK	false
 WEEKS	false
 WHEN	true
 WHERE	true
+WHILE	false
 WINDOW	false
 WITH	true
 WITHIN	true
