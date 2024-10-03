@@ -28,7 +28,7 @@ import org.apache.spark.sql.SparkSession
 object SparkPi {
   def main(args: Array[String]): Unit = {
     val config = new SparkConf()
-    config.set("spark.eventLog.enabled", "true")
+    config.set("spark.eventLog.enabled","true")
     config.set("spark.eventLog.dir", "file:///D:/code/spark_demo_scala/src/main/resources")
     val spark = SparkSession
       .builder()
